@@ -12,6 +12,6 @@
 </head>
 <body>
     <h1>Успешный вход</h1>
-    <a href="/register">Регистрация</a>
+    <a href="/login">Регистрация</a>
 </body>
 </html>

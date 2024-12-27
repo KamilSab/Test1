@@ -1,26 +1,35 @@
 package ru.kpfu.itis.servlets;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import ru.kpfu.itis.entity.User;
+import ru.kpfu.itis.service.UserService;
+import ru.kpfu.itis.service.impl.UserServiceImpl;
 
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("/register.jsp");
+    private final UserService userService = new UserServiceImpl();
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.sendRedirect("register.jsp");
     }
 
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String username = req.getParameter("username");
-        String password = req.getParameter("password");
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User userDto = new User(
+                req.getParameter("username"),
+                req.getParameter("email"),
+                req.getParameter("password")
+        );
 
-
-
+        userService.addUser(userDto);
         resp.sendRedirect("/login");
     }
 }
